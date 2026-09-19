@@ -1,0 +1,222 @@
+:root {
+  --ink: #f2f0ec;
+  --chrome: rgba(14, 16, 18, .72);
+  --edge: #ffd166;
+  --card: #5fd0d6;
+  --muted: rgba(242, 240, 236, .62);
+  --bad: #ff8b7a;
+  --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: #0e1012;
+  color: var(--ink);
+  font-family: var(--font);
+  overscroll-behavior: none;
+}
+
+#stage { position: fixed; inset: 0; overflow: hidden; }
+
+video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #0e1012;
+}
+
+/* ---- the outlines ---- */
+
+.box {
+  position: absolute;
+  border: 2px solid var(--edge);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .55), 0 0 0 4px rgba(0, 0, 0, .18);
+  touch-action: none;
+  cursor: grab;
+}
+
+.box::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: .02em;
+  color: var(--edge);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .9);
+  white-space: nowrap;
+}
+
+.card {
+  position: absolute;
+  border: 2px dashed var(--card);
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .5);
+  touch-action: none;
+  cursor: grab;
+  display: none;
+}
+
+.card::after {
+  content: "Bank card — match this to a real one";
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--card);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .9);
+  white-space: nowrap;
+}
+
+body.calibrating .card { display: block; }
+
+/* ---- search ---- */
+
+#search {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 14px 10px;
+  background: var(--chrome);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+
+#lookupForm { display: flex; gap: 8px; }
+
+#query {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 16px; /* under 16px iOS Safari zooms on focus */
+  color: var(--ink);
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 10px;
+  padding: 9px 12px;
+}
+
+#query::placeholder { color: var(--muted); }
+
+#status {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+  min-height: 1.45em;
+}
+
+#status.error { color: var(--bad); }
+#status strong { color: var(--ink); font-weight: 600; }
+
+/* ---- controls ---- */
+
+#panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 58vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: var(--chrome);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(255, 255, 255, .12);
+}
+
+.row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 9px;
+}
+
+.row:empty { display: none; }
+
+button {
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 999px;
+  padding: 7px 13px;
+  cursor: pointer;
+}
+
+button[aria-pressed="true"] { background: var(--ink); color: #0e1012; border-color: var(--ink); }
+button:disabled { opacity: .5; cursor: default; }
+button:focus-visible, input:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--edge);
+  outline-offset: 2px;
+}
+
+label.scale {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+input[type=range] { flex: 1; min-width: 0; accent-color: var(--edge); }
+
+.note {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--muted);
+  margin: 9px 0 0;
+}
+
+.note strong { color: var(--ink); font-weight: 600; }
+
+details { margin-bottom: 9px; font-size: 12px; color: var(--muted); }
+details[hidden] { display: none; }
+summary { cursor: pointer; padding: 4px 0; color: var(--ink); font-size: 12px; }
+#detailBody { padding: 2px 0 4px; line-height: 1.5; }
+#detailBody p { margin: 0 0 6px; }
+#detailBody ul { margin: 4px 0 0; padding-left: 18px; }
+#detailBody li { margin-bottom: 3px; overflow-wrap: anywhere; }
+#detailBody a { color: var(--card); }
+.conf-high { color: #8fe3a0; }
+.conf-mixed { color: var(--edge); }
+.conf-low { color: var(--bad); }
+
+#manualForm { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding-top: 4px; }
+#manualForm label { display: flex; align-items: center; gap: 4px; font-size: 12px; }
+
+#manualForm input {
+  width: 74px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+#camFail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40%;
+  padding: 0 24px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+#camFail[hidden] { display: none; }

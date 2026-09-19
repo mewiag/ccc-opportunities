@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1012">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='9' width='24' height='14' fill='none' stroke='%23ffd166' stroke-width='3'/%3E%3C/svg%3E">
+<title>Size overlay</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div id="stage">
+  <video id="cam" playsinline muted autoplay></video>
+
+  <div class="card" id="card" aria-hidden="true"></div>
+  <div class="box" id="box" data-label="" hidden></div>
+
+  <header id="search">
+    <form id="lookupForm" autocomplete="off">
+      <input id="query" type="search" enterkeyhint="search" placeholder="Name a product — e.g. Clic stroller"
+             aria-label="Product to look up">
+      <button type="submit" id="go">Look up</button>
+    </form>
+    <p id="status" role="status" aria-live="polite"></p>
+  </header>
+
+  <div id="camFail" hidden>
+    <p>The camera didn't start. This page needs camera permission and a secure
+       connection — on iPhone, open it in Safari over HTTPS and allow access when asked.</p>
+    <p class="note">Everything else still works. The outline just won't have anything behind it.</p>
+  </div>
+
+  <div id="panel">
+    <div class="row" id="variantRow"></div>
+    <div class="row" id="faceRow"></div>
+
+    <div class="row">
+      <label class="scale">
+        Size
+        <input type="range" id="scale" min="1.2" max="16" step="0.05" value="5" aria-label="Scale">
+        <button id="calib" type="button" aria-pressed="false">Card</button>
+      </label>
+    </div>
+
+    <details id="detail">
+      <summary>Where these numbers came from</summary>
+      <div id="detailBody"></div>
+    </details>
+
+    <details id="manual">
+      <summary>Enter dimensions by hand</summary>
+      <form id="manualForm">
+        <label>L <input type="number" id="mL" min="1" max="2000" step="0.1" inputmode="decimal" required></label>
+        <label>W <input type="number" id="mW" min="1" max="2000" step="0.1" inputmode="decimal" required></label>
+        <label>H <input type="number" id="mH" min="1" max="2000" step="0.1" inputmode="decimal" required></label>
+        <button type="submit">Use these</button>
+      </form>
+      <p class="note">Centimetres.</p>
+    </details>
+
+    <p class="note"><strong>Not true AR.</strong> Hold a bank card flat against the space
+      you're measuring, tap Card, and drag the slider until the dashed outline sits exactly
+      over it. The yellow outline is then roughly to scale at that same distance. Drag either
+      outline to move it. Tilt and depth aren't corrected for, so treat it as a sense of
+      proportion, not a measurement.</p>
+  </div>
+</div>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

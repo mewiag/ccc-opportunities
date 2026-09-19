@@ -1,0 +1,20 @@
+{
+  "name": "size-overlay",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Hold your phone up to a space and see whether a thing fits. Dimensions looked up live.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "mock": "SIZE_OVERLAY_MOCK=1 node server.js",
+    "certs": "./make-certs.sh",
+    "test": "node test/server.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.127.0"
+  }
+}
